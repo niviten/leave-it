@@ -3,9 +3,12 @@ package main
 import (
 	"fmt"
 	"leaveit/internal/config"
+	"leaveit/internal/dbconn"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -14,6 +17,12 @@ func main() {
 	err := config.Load()
 	if err != nil {
 		fmt.Println("Error loading config:", err)
+		return
+	}
+
+	err = dbconn.Init()
+	if err != nil {
+		fmt.Println("Error init db:", err)
 		return
 	}
 
